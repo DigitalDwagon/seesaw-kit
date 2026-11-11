@@ -16,6 +16,6 @@ steps:
     image: python:${PYTHON_VERSION}
     commands:
       - pip install -r requirements.txt
-      - pip install -q nose coverage python-coveralls
+      - pip install -q nose "coverage<6"
       - PYTHONIOENCODING=ascii nosetests --with-coverage --cover-package=seesaw --cover-branches
-      - coveralls
+      - coverage report
