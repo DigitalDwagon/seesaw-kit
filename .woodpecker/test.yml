@@ -1,0 +1,21 @@
+when:
+  - event: push
+  - event: pull_request
+  - event: manual
+  
+matrix:
+  PYTHON_VERSION:
+    - "2.7"
+    - "3.3"
+    - "3.4"
+    - "3.5"
+    - "3.6"
+
+steps:
+  test:
+    image: python:${PYTHON_VERSION}
+    commands:
+      - pip install -r requirements.txt
+      - pip install -q coverage python-coveralls
+      - PYTHONIOENCODING=ascii nosetests --with-coverage --cover-package=seesaw --cover-branches
+      - coveralls
