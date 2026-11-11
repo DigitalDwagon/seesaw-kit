@@ -16,7 +16,8 @@ steps:
     image: python:${PYTHON_VERSION}
     commands:
       # the tests expect the "python" executable to be available, even though it isn't in some of the official docker images
-      - if ! command -v python >/dev/null 2>&1; then ln -s "$(command -v python3)" /usr/local/bin/python; fi
+      - if ! python --version >/dev/null 2>&1; then p="$(command -v python3)" && ln -sf "$p" "$(dirname "$p")/python"; fi
+      - echo "PATH=$PATH"; command -v python; command -v python3; ls -l /usr/local/bin/python*
       - pip install -r requirements.txt
       - pip install -q nose "coverage<6"
       - PYTHONIOENCODING=ascii nosetests --with-coverage --cover-package=seesaw --cover-branches
